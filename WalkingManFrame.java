@@ -15,7 +15,7 @@ public class WalkingManFrame extends JFrame implements ActionListener
 	private Man man;
 	private Man dog;
 	private ArrayList<Man> men = new ArrayList<Man>();
-	public ArrayList<Ball> b = new ArrayList<Ball>();
+	public ArrayList<Projectile> p = new ArrayList<Projectile>();
 	public WalkingManFrame()
 	{
 		setBounds(100, 100, 1200, 700);
@@ -61,26 +61,26 @@ public class WalkingManFrame extends JFrame implements ActionListener
 							{
 							case 1:
 								
-								Ball bb = new Ball(man.getX(), man.getY(), 0,-5);
-								b.add(bb);
+								Projectile bb = new Projectile(man.getX(), man.getY(), 0,-5, 5, "Pistol");
+								p.add(bb);
 								add(bb);
 								break;
 							case 2: 
 							
-								Ball bb1 = new Ball(man.getX(), man.getY(), -5,0);
-								b.add(bb1);
+								Projectile bb1 = new Projectile(man.getX(), man.getY(), -5, 0, 5, "Pistol");
+								p.add(bb1);
 								add(bb1);
 								break;
 							case 3:
 						
-								Ball bb2 = new Ball(man.getX(), man.getY(), 0,5);
-								b.add(bb2);
+								Projectile bb2 = new Projectile(man.getX(), man.getY(), 0, 5, 5, "Pistol");
+								p.add(bb2);
 								add(bb2);
 								break;
 							case 4: 
 								
-								Ball bb3 = new Ball(man.getX(), man.getY(), 5,0);
-								b.add(bb3);
+								Projectile bb3 = new Projectile(man.getX(), man.getY(), 5, 0, 5, "Pistol");
+								p.add(bb3);
 								add(bb3);
 								break;
 								
@@ -94,7 +94,6 @@ public class WalkingManFrame extends JFrame implements ActionListener
 						if(e.getKeyCode() == e.VK_W)
 						{
 							man.setDY(0);
-							
 						}
 						if(e.getKeyCode() == e.VK_A)
 						{
@@ -144,26 +143,26 @@ public class WalkingManFrame extends JFrame implements ActionListener
 					{
 					case 1:
 						
-						Ball bb = new Ball(dog.getX(), dog.getY(), 0,-5);
-						b.add(bb);
+						Projectile bb = new Projectile(dog.getX(), dog.getY(), 0,-5, 5, "Pistol");
+						p.add(bb);
 						add(bb);
 						break;
 					case 2: 
 					
-						Ball bb1 = new Ball(dog.getX(), dog.getY(), -5,0);
-						b.add(bb1);
+						Projectile bb1 = new Projectile(dog.getX(), dog.getY(), -5, 0, 5, "Pistol");
+						p.add(bb1);
 						add(bb1);
 						break;
 					case 3:
 				
-						Ball bb2 = new Ball(dog.getX(), dog.getY(), 0,5);
-						b.add(bb2);
+						Projectile bb2 = new Projectile(dog.getX(), dog.getY(), 0, 5, 5, "Pistol");
+						p.add(bb2);
 						add(bb2);
 						break;
 					case 4: 
 						
-						Ball bb3 = new Ball(dog.getX(), dog.getY(), 5,0);
-						b.add(bb3);
+						Projectile bb3 = new Projectile(dog.getX(), dog.getY(), 5, 0, 5, "Pistol");
+						p.add(bb3);
 						add(bb3);
 						break;
 						
@@ -214,13 +213,13 @@ public class WalkingManFrame extends JFrame implements ActionListener
 			}
 			men.get(i).update();
 		}
-		for(int i = 0; i < b.size(); i++)
+		for(int i = 0; i < p.size(); i++)
 		{
-			b.get(i).update();
-			if(b.get(i).getX() > this.getWidth() || b.get(i).getX() < 0 || b.get(i).getY() < 0 || b.get(i).getY() > this.getHeight())
+			p.get(i).update();
+			if(p.get(i).getX() > this.getWidth() || p.get(i).getX() < 0 || p.get(i).getY() < 0 || p.get(i).getY() > this.getHeight())
 			{
-				this.remove(b.get(i));
-				b.remove(i);
+				this.remove(p.get(i));
+				p.remove(i);
 			}
 		}
 		repaint();
