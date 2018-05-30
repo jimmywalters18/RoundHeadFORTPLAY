@@ -14,10 +14,11 @@ public class WalkingManFrame extends JFrame implements ActionListener
 	int direction1 = 0;
 	private Man man;
 	private Man dog;
+	private wall w;
 	private ArrayList<Man> men = new ArrayList<Man>();
-	public ArrayList<Projectile> mp = new ArrayList<Projectile>();
-	public ArrayList<Projectile> dp = new ArrayList<Projectile>();
-	private boolean gameState = true;
+	public ArrayList<Ball> b = new ArrayList<Ball>();
+	public ArrayList<wall> wa = new ArrayList<wall>();
+	public ArrayList<wall2> wa2 = new ArrayList<wall2>();
 	
 	public WalkingManFrame()
 	{
@@ -27,6 +28,7 @@ public class WalkingManFrame extends JFrame implements ActionListener
 		dog = new Man(0,0, Color.BLUE);
 		men.add(man);
 		men.add(dog);
+		
 		for (int i =0; i<men.size(); i++)
 		{
 			add(men.get(i));
@@ -64,39 +66,99 @@ public class WalkingManFrame extends JFrame implements ActionListener
 							{
 							case 1:
 								
-								Projectile bb = new Projectile(man.getX(), man.getY(), 0,-5, 5, "Pistol");
-								mp.add(bb);
+								Ball bb = new Ball(man.getX(), man.getY(), 0,-5);
+								b.add(bb);
 								add(bb);
 								break;
 							case 2: 
 							
-								Projectile bb1 = new Projectile(man.getX(), man.getY(), -5, 0, 5, "Pistol");
-								mp.add(bb1);
+								Ball bb1 = new Ball(man.getX(), man.getY(), -5,0);
+								b.add(bb1);
 								add(bb1);
 								break;
 							case 3:
 						
-								Projectile bb2 = new Projectile(man.getX(), man.getY(), 0, 5, 5, "Pistol");
-								mp.add(bb2);
+								Ball bb2 = new Ball(man.getX(), man.getY(), 0,5);
+								b.add(bb2);
 								add(bb2);
 								break;
 							case 4: 
 								
-								Projectile bb3 = new Projectile(man.getX(), man.getY(), 5, 0, 5, "Pistol");
-								mp.add(bb3);
+								Ball bb3 = new Ball(man.getX(), man.getY(), 5,0);
+								b.add(bb3);
+								add(bb3);
+								break;
+							}
+						}
+						if(e.getKeyCode() == e.VK_E)
+						{
+							switch (direction) 
+							{
+							case 1:
+								
+								wall2 bb = new wall2(man.getX()-15, man.getY()-20, Color.RED);
+								wa2.add(bb);
+								add(bb);
+								break;
+							case 2: 
+							
+								wall bb1 = new wall(man.getX()-20, man.getY()-15, Color.RED);
+								wa.add(bb1);
+								add(bb1);
+								break;
+							case 3:
+						
+								wall2 bb2 = new wall2(man.getX()-15, man.getY()+20, Color.RED);
+								wa2.add(bb2);
+								add(bb2);
+								break;
+							case 4: 
+								wall bb3 = new wall(man.getX()+35, man.getY()-15, Color.RED);
+								wa.add(bb3);
 								add(bb3);
 								break;
 								
 							
 							}
 						}
+						if(e.getKeyCode() == e.VK_O)
+						{
+							switch (direction1) 
+							{
+							case 1:
+								
+								wall2 bb = new wall2(dog.getX()-15, dog.getY()-20, Color.BLUE);
+								wa2.add(bb);
+								add(bb);
+								break;
+							case 2: 
+							
+								wall bb1 = new wall(dog.getX()-20, dog.getY()-15, Color.BLUE);
+								wa.add(bb1);
+								add(bb1);
+								break;
+							case 3:
 						
+								wall2 bb2 = new wall2(dog.getX()-15, dog.getY()+20, Color.BLUE);
+								wa2.add(bb2);
+								add(bb2);
+								break;
+							case 4: 
+								wall bb3 = new wall(dog.getX()+35, dog.getY()-15, Color.BLUE);
+								wa.add(bb3);
+								add(bb3);
+								break;
+								
+							
+							}
+						}
 					}
 					public void keyReleased(KeyEvent e)
 					{
 						if(e.getKeyCode() == e.VK_W)
 						{
 							man.setDY(0);
+							
 						}
 						if(e.getKeyCode() == e.VK_A)
 						{
@@ -120,52 +182,52 @@ public class WalkingManFrame extends JFrame implements ActionListener
 		{
 			public void keyPressed(KeyEvent r)
 			{
-				if(r.getKeyCode() == r.VK_UP)
+				if(r.getKeyCode() == r.VK_I)
 				{
 					dog.setDY(-2);
 					direction1 = 1;
 				}
-				if(r.getKeyCode() == r.VK_LEFT)
+				if(r.getKeyCode() == r.VK_J)
 				{
 					dog.setDX(-2);
 					direction1 = 2;
 				}
-				if(r.getKeyCode() == r.VK_DOWN)
+				if(r.getKeyCode() == r.VK_K)
 				{
 					dog.setDY(2);
 					direction1 = 3;
 				}
-				if(r.getKeyCode() == r.VK_RIGHT)
+				if(r.getKeyCode() == r.VK_L)
 				{
 					dog.setDX(2);
 					direction1 = 4;
 				}
-				if(r.getKeyCode() == r.VK_SLASH)
+				if(r.getKeyCode() == r.VK_M)
 				{
 					switch (direction1) 
 					{
 					case 1:
 						
-						Projectile bb = new Projectile(dog.getX(), dog.getY(), 0,-5, 5, "Pistol");
-						dp.add(bb);
+						Ball bb = new Ball(dog.getX(), dog.getY(), 0,-5);
+						b.add(bb);
 						add(bb);
 						break;
 					case 2: 
 					
-						Projectile bb1 = new Projectile(dog.getX(), dog.getY(), -5, 0, 5, "Pistol");
-						dp.add(bb1);
+						Ball bb1 = new Ball(dog.getX(), dog.getY(), -5,0);
+						b.add(bb1);
 						add(bb1);
 						break;
 					case 3:
-				
-						Projectile bb2 = new Projectile(dog.getX(), dog.getY(), 0, 5, 5, "Pistol");
-						dp.add(bb2);
+						
+						Ball bb2 = new Ball(dog.getX(), dog.getY(), 0,5);
+						b.add(bb2);
 						add(bb2);
 						break;
 					case 4: 
 						
-						Projectile bb3 = new Projectile(dog.getX(), dog.getY(), 5, 0, 5, "Pistol");
-						dp.add(bb3);
+						Ball bb3 = new Ball(dog.getX(), dog.getY(), 5,0);
+						b.add(bb3);
 						add(bb3);
 						break;
 						
@@ -176,20 +238,20 @@ public class WalkingManFrame extends JFrame implements ActionListener
 			}
 			public void keyReleased(KeyEvent r)
 			{
-				if(r.getKeyCode() == r.VK_UP)
+				if(r.getKeyCode() == r.VK_I)
 				{
 					dog.setDY(0);
 					
 				}
-				if(r.getKeyCode() == r.VK_LEFT)
+				if(r.getKeyCode() == r.VK_J)
 				{
 					dog.setDX(0);
 				}
-				if(r.getKeyCode() == r.VK_DOWN)
+				if(r.getKeyCode() == r.VK_K)
 				{
 					dog.setDY(0);
 				}
-				if(r.getKeyCode() == r.VK_RIGHT)
+				if(r.getKeyCode() == r.VK_L)
 				{
 					dog.setDX(0);
 				}
@@ -203,60 +265,29 @@ public class WalkingManFrame extends JFrame implements ActionListener
 	}
 	public void actionPerformed(ActionEvent e)
 	{
-		System.out.println("man: " + man.getHealth());
-		System.out.println("dog: " + dog.getHealth());
-		if (gameState) {
-			for (int i = 0; i<men.size(); i++)
+		for (int i = 0; i<men.size(); i++)
+		{
+			if (men.get(i).getX() + men.get(i).getDX() >= this.getWidth() || men.get(i).getX() + men.get(i).getDX() <= 0)
 			{
-				if (men.get(i).getX() + men.get(i).getDX() >= this.getWidth() || men.get(i).getX() + men.get(i).getDX() <= 0)
-				{
-					men.get(i).setDX(0);
-				}
-				if (men.get(i).getY() + men.get(i).getDY() >= this.getHeight() || men.get(i).getY() + men.get(i).getDY() <= 0)
-				{
-					
-					men.get(i).setDY(0);
-				}
-				men.get(i).update();
+				men.get(i).setDX(0);
 			}
-			for(int i = 0; i < dp.size(); i++)
+			if (men.get(i).getY() + men.get(i).getDY() >= this.getHeight() || men.get(i).getY() + men.get(i).getDY() <= 0)
 			{
-				dp.get(i).update();
-				if (dp.get(i).getX() == man.getX() || dp.get(i).getY() == man.getY()) {
-					man.setHealth(man.getHealth() - 5);
-					this.remove(dp.get(i));
-					dp.remove(i);
-				}
-				if (man.getHealth() == 0 || dog.getHealth() == 0) gameState = false;
-				if (dp.size() != 0 && dp.get(i) != null) {
-					if(dp.get(i).getX() > this.getWidth() || dp.get(i).getX() < 0 || dp.get(i).getY() < 0 || dp.get(i).getY() > this.getHeight())
-						{
-							if (dp.get(i) != null) {
-								this.remove(dp.get(i));
-								dp.remove(i);
-							}
-						}
-				}
+				
+				men.get(i).setDY(0);
 			}
-			for(int i = 0; i < mp.size(); i++)
-			{
-				mp.get(i).update();
-				if (mp.get(i).getX() == dog.getX() || mp.get(i).getY() == dog.getY()) {
-					dog.setHealth(dog.getHealth() - 5);
-					this.remove(mp.get(i));
-					mp.remove(i);
-				}
-				if (man.getHealth() == 0 || dog.getHealth() == 0) gameState = false;
-				if (mp.size() != 0 && mp.get(i) != null) {	
-					if(mp.get(i).getX() > this.getWidth() || mp.get(i).getX() < 0 || mp.get(i).getY() < 0 || mp.get(i).getY() > this.getHeight())
-						{
-							this.remove(mp.get(i));
-							mp.remove(i);
-						}
-				}
-			}
-			repaint();
+			men.get(i).update();
 		}
+		for(int i = 0; i < b.size(); i++)
+		{
+			b.get(i).update();
+			if(b.get(i).getX() > this.getWidth() || b.get(i).getX() < 0 || b.get(i).getY() < 0 || b.get(i).getY() > this.getHeight())
+			{
+				this.remove(b.get(i));
+				b.remove(i);
+			}
+		}
+		repaint();
 	}
 	public static void main(String[] args)
 	{
