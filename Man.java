@@ -10,6 +10,8 @@ public class Man extends JComponent
 {
 	private int dy = 0, dx = 0;
 	private Color coellear;  
+	private int health = 100;
+	
 	public Man(int x, int y, Color c)
 	{
 		setLocation(x, y);
@@ -46,4 +48,13 @@ public class Man extends JComponent
 	{
 		setLocation(getX() + dx, getY() + dy);
 	}
+
+	public int getHealth() {
+		return health;
+	}
+	
+	public void setHealth(int x) {
+		health = x;
+	}
+
 }

@@ -15,7 +15,10 @@ public class WalkingManFrame extends JFrame implements ActionListener
 	private Man man;
 	private Man dog;
 	private ArrayList<Man> men = new ArrayList<Man>();
-	public ArrayList<Projectile> p = new ArrayList<Projectile>();
+	public ArrayList<Projectile> mp = new ArrayList<Projectile>();
+	public ArrayList<Projectile> dp = new ArrayList<Projectile>();
+	private boolean gameState = true;
+	
 	public WalkingManFrame()
 	{
 		setBounds(100, 100, 1200, 700);
@@ -62,25 +65,25 @@ public class WalkingManFrame extends JFrame implements ActionListener
 							case 1:
 								
 								Projectile bb = new Projectile(man.getX(), man.getY(), 0,-5, 5, "Pistol");
-								p.add(bb);
+								mp.add(bb);
 								add(bb);
 								break;
 							case 2: 
 							
 								Projectile bb1 = new Projectile(man.getX(), man.getY(), -5, 0, 5, "Pistol");
-								p.add(bb1);
+								mp.add(bb1);
 								add(bb1);
 								break;
 							case 3:
 						
 								Projectile bb2 = new Projectile(man.getX(), man.getY(), 0, 5, 5, "Pistol");
-								p.add(bb2);
+								mp.add(bb2);
 								add(bb2);
 								break;
 							case 4: 
 								
 								Projectile bb3 = new Projectile(man.getX(), man.getY(), 5, 0, 5, "Pistol");
-								p.add(bb3);
+								mp.add(bb3);
 								add(bb3);
 								break;
 								
@@ -144,25 +147,25 @@ public class WalkingManFrame extends JFrame implements ActionListener
 					case 1:
 						
 						Projectile bb = new Projectile(dog.getX(), dog.getY(), 0,-5, 5, "Pistol");
-						p.add(bb);
+						dp.add(bb);
 						add(bb);
 						break;
 					case 2: 
 					
 						Projectile bb1 = new Projectile(dog.getX(), dog.getY(), -5, 0, 5, "Pistol");
-						p.add(bb1);
+						dp.add(bb1);
 						add(bb1);
 						break;
 					case 3:
 				
 						Projectile bb2 = new Projectile(dog.getX(), dog.getY(), 0, 5, 5, "Pistol");
-						p.add(bb2);
+						dp.add(bb2);
 						add(bb2);
 						break;
 					case 4: 
 						
 						Projectile bb3 = new Projectile(dog.getX(), dog.getY(), 5, 0, 5, "Pistol");
-						p.add(bb3);
+						dp.add(bb3);
 						add(bb3);
 						break;
 						
@@ -200,29 +203,60 @@ public class WalkingManFrame extends JFrame implements ActionListener
 	}
 	public void actionPerformed(ActionEvent e)
 	{
-		for (int i = 0; i<men.size(); i++)
-		{
-			if (men.get(i).getX() + men.get(i).getDX() >= this.getWidth() || men.get(i).getX() + men.get(i).getDX() <= 0)
+		System.out.println("man: " + man.getHealth());
+		System.out.println("dog: " + dog.getHealth());
+		if (gameState) {
+			for (int i = 0; i<men.size(); i++)
 			{
-				men.get(i).setDX(0);
+				if (men.get(i).getX() + men.get(i).getDX() >= this.getWidth() || men.get(i).getX() + men.get(i).getDX() <= 0)
+				{
+					men.get(i).setDX(0);
+				}
+				if (men.get(i).getY() + men.get(i).getDY() >= this.getHeight() || men.get(i).getY() + men.get(i).getDY() <= 0)
+				{
+					
+					men.get(i).setDY(0);
+				}
+				men.get(i).update();
 			}
-			if (men.get(i).getY() + men.get(i).getDY() >= this.getHeight() || men.get(i).getY() + men.get(i).getDY() <= 0)
+			for(int i = 0; i < dp.size(); i++)
 			{
-				
-				men.get(i).setDY(0);
+				dp.get(i).update();
+				if (dp.get(i).getX() == man.getX() || dp.get(i).getY() == man.getY()) {
+					man.setHealth(man.getHealth() - 5);
+					this.remove(dp.get(i));
+					dp.remove(i);
+				}
+				if (man.getHealth() == 0 || dog.getHealth() == 0) gameState = false;
+				if (dp.size() != 0 && dp.get(i) != null) {
+					if(dp.get(i).getX() > this.getWidth() || dp.get(i).getX() < 0 || dp.get(i).getY() < 0 || dp.get(i).getY() > this.getHeight())
+						{
+							if (dp.get(i) != null) {
+								this.remove(dp.get(i));
+								dp.remove(i);
+							}
+						}
+				}
 			}
-			men.get(i).update();
+			for(int i = 0; i < mp.size(); i++)
+			{
+				mp.get(i).update();
+				if (mp.get(i).getX() == dog.getX() || mp.get(i).getY() == dog.getY()) {
+					dog.setHealth(dog.getHealth() - 5);
+					this.remove(mp.get(i));
+					mp.remove(i);
+				}
+				if (man.getHealth() == 0 || dog.getHealth() == 0) gameState = false;
+				if (mp.size() != 0 && mp.get(i) != null) {	
+					if(mp.get(i).getX() > this.getWidth() || mp.get(i).getX() < 0 || mp.get(i).getY() < 0 || mp.get(i).getY() > this.getHeight())
+						{
+							this.remove(mp.get(i));
+							mp.remove(i);
+						}
+				}
+			}
+			repaint();
 		}
-		for(int i = 0; i < p.size(); i++)
-		{
-			p.get(i).update();
-			if(p.get(i).getX() > this.getWidth() || p.get(i).getX() < 0 || p.get(i).getY() < 0 || p.get(i).getY() > this.getHeight())
-			{
-				this.remove(p.get(i));
-				p.remove(i);
-			}
-		}
-		repaint();
 	}
 	public static void main(String[] args)
 	{
