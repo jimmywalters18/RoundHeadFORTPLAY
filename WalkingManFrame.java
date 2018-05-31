@@ -16,21 +16,23 @@ public class WalkingManFrame extends JFrame implements ActionListener
 	private Man dog;
 	private wall w;
 	private ArrayList<Man> men = new ArrayList<Man>();
-	public ArrayList<Projectile> mp = new ArrayList<Projectile>();
-	public ArrayList<Projectile> dp = new ArrayList<Projectile>();
-	private boolean gameState = true;
+	public ArrayList<Ball> b = new ArrayList<Ball>();
 	public ArrayList<wall> wa = new ArrayList<wall>();
 	public ArrayList<wall2> wa2 = new ArrayList<wall2>();
+	private Map map;
+	
 	
 	public WalkingManFrame()
 	{
+		
 		setBounds(100, 100, 1200, 700);
 		setLayout(null);
 		man = new Man(0, 0, Color.RED);
 		dog = new Man(0,0, Color.BLUE);
 		men.add(man);
 		men.add(dog);
-		
+		map = new Map(500,200,Color.BLACK);
+		add(map);
 		for (int i =0; i<men.size(); i++)
 		{
 			add(men.get(i));
@@ -68,25 +70,26 @@ public class WalkingManFrame extends JFrame implements ActionListener
 							{
 							case 1:
 								
-								Projectile bb = new Projectile(man.getX(), man.getY(), 0,-5, 5, "Pistol");
-								mp.add(bb);
+								Ball bb = new Ball(man.getX(), man.getY(), 0,-5);
+								b.add(bb);
 								add(bb);
 								break;
 							case 2: 
-								Projectile bb1 = new Projectile(man.getX(), man.getY(), -5, 0, 5, "Pistol");
-								mp.add(bb1);
+							
+								Ball bb1 = new Ball(man.getX(), man.getY(), -5,0);
+								b.add(bb1);
 								add(bb1);
 								break;
 							case 3:
 						
-								Projectile bb2 = new Projectile(man.getX(), man.getY(), 0, 5, 5, "Pistol");
-								mp.add(bb2);
+								Ball bb2 = new Ball(man.getX(), man.getY(), 0,5);
+								b.add(bb2);
 								add(bb2);
 								break;
 							case 4: 
 								
-								Projectile bb3 = new Projectile(man.getX(), man.getY(), 5, 0, 5, "Pistol");
-								mp.add(bb3);
+								Ball bb3 = new Ball(man.getX(), man.getY(), 5,0);
+								b.add(bb3);
 								add(bb3);
 								break;
 							}
@@ -209,26 +212,26 @@ public class WalkingManFrame extends JFrame implements ActionListener
 					{
 					case 1:
 						
-						Projectile bb = new Projectile(dog.getX(), dog.getY(), 0,-5, 5, "Pistol");
-						dp.add(bb);
+						Ball bb = new Ball(dog.getX(), dog.getY(), 0,-5);
+						b.add(bb);
 						add(bb);
 						break;
 					case 2: 
 					
-						Projectile bb1 = new Projectile(dog.getX(), dog.getY(), -5, 0, 5, "Pistol");
-						dp.add(bb1);
+						Ball bb1 = new Ball(dog.getX(), dog.getY(), -5,0);
+						b.add(bb1);
 						add(bb1);
 						break;
 					case 3:
 						
-						Projectile bb2 = new Projectile(dog.getX(), dog.getY(), 0, 5, 5, "Pistol");
-						dp.add(bb2);
+						Ball bb2 = new Ball(dog.getX(), dog.getY(), 0,5);
+						b.add(bb2);
 						add(bb2);
 						break;
 					case 4: 
 						
-						Projectile bb3 = new Projectile(dog.getX(), dog.getY(), 5, 0, 5, "Pistol");
-						dp.add(bb3);
+						Ball bb3 = new Ball(dog.getX(), dog.getY(), 5,0);
+						b.add(bb3);
 						add(bb3);
 						break;
 						
@@ -266,60 +269,37 @@ public class WalkingManFrame extends JFrame implements ActionListener
 	}
 	public void actionPerformed(ActionEvent e)
 	{
-		System.out.println("man: " + man.getHealth());
-		System.out.println("dog: " + dog.getHealth());
-		if (gameState) 
-		{	
-			for (int i = 0; i<men.size(); i++)
-				{
-					if (men.get(i).getX() + men.get(i).getDX() >= this.getWidth() || men.get(i).getX() + men.get(i).getDX() <= 0)
-					{
-						men.get(i).setDX(0);
-					}
-					if (men.get(i).getY() + men.get(i).getDY() >= this.getHeight() || men.get(i).getY() + men.get(i).getDY() <= 0)
-					{
-						men.get(i).setDY(0);
-					}
-					men.get(i).update();
-				}
-			for(int i = 0; i < dp.size(); i++)
+		for (int i = 0; i<men.size(); i++)
+		{
+			if (men.get(i).getX() + men.get(i).getDX() >= this.getWidth() || men.get(i).getX() + men.get(i).getDX() <= 0)
 			{
-				dp.get(i).update();
-				if (dp.get(i).getX() == man.getX() || dp.get(i).getY() == man.getY()) {
-					man.setHealth(man.getHealth() - 5);
-					this.remove(dp.get(i));
-					dp.remove(i);
-				}
-				if (man.getHealth() == 0 || dog.getHealth() == 0) gameState = false;
-				if (dp.size() != 0 && mp.size() < i && dp.get(i) != null) {
-					if(dp.get(i).getX() > this.getWidth() || dp.get(i).getX() < 0 || dp.get(i).getY() < 0 || dp.get(i).getY() > this.getHeight())
-						{
-							if (dp.get(i) != null) {
-								this.remove(dp.get(i));
-								dp.remove(i);
-							}
-						}
-				}
+				men.get(i).setDX(0);
 			}
-			for(int i = 0; i < mp.size(); i++)
+			if (men.get(i).getY() + men.get(i).getDY() >= this.getHeight() || men.get(i).getY() + men.get(i).getDY() <= 0)
 			{
-				mp.get(i).update();
-				if (mp.get(i).getX() == dog.getX() || mp.get(i).getY() == dog.getY()) {
-					dog.setHealth(dog.getHealth() - 5);
-					this.remove(mp.get(i));
-					mp.remove(i);
-				}
-				if (man.getHealth() == 0 || dog.getHealth() == 0) gameState = false;
-				if (mp.size() != 0 && mp.size() < i && mp.get(i) != null) {	
-					if(mp.get(i).getX() > this.getWidth() || mp.get(i).getX() < 0 || mp.get(i).getY() < 0 || mp.get(i).getY() > this.getHeight())
-						{
-							this.remove(mp.get(i));
-							mp.remove(i);
-						}
-				}
+				
+				men.get(i).setDY(0);
 			}
-			repaint();
+			men.get(i).update();
 		}
+		for(int i = 0; i < b.size(); i++)
+		{
+			b.get(i).update();
+			if(b.get(i).getX() > this.getWidth() || b.get(i).getX() < 0 || b.get(i).getY() < 0 || b.get(i).getY() > this.getHeight())
+			{
+				this.remove(b.get(i));
+				b.remove(i);
+			}
+		for (int j = 0; j< b.size(); j++) 
+		{
+			if (b.get(j).getX() > 500 && b.get(j).getY() > 200 && b.get(j).getX() < 575 && b.get(j).getY() < 476)
+			{
+				b.remove(j);
+			}
+		}
+		}
+		
+		repaint();
 	}
 	public static void main(String[] args)
 	{
